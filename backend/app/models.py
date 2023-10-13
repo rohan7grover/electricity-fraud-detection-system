@@ -18,11 +18,11 @@ class UserAccountManager(BaseUserManager):
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
-    role = models.CharField(choices = [
-        ('admin', 'Admin'),
+    role = models.CharField(max_length=7, choices = [
         ('tier1', 'Tier 1'),
         ('tier2', 'Tier 2'),
         ('tier3', 'Tier 3'),
+        ('admin', 'Admin'),
     ])
     is_active = models.BooleanField(default=True)
 
