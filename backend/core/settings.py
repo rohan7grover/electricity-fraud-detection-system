@@ -79,12 +79,13 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "project",
-        "USER": "postgres",
-        "PASSWORD": "postgres123",
-        "HOST": "localhost"
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'capstone_admin',
+        'PASSWORD': 'Energy#2023',
+        'HOST': 'capstonedb.postgres.database.azure.com',  
+        'PORT': '5432',  
     }
 }
 
@@ -132,10 +133,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, "build/static"),
-]
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, "build/static"),
+# ]
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

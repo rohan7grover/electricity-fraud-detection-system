@@ -15,11 +15,11 @@ class UserAccountManager(BaseUserManager):
 
         return user
 
-
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     role = models.CharField(choices = [
+        ('admin', 'Admin'),
         ('tier1', 'Tier 1'),
         ('tier2', 'Tier 2'),
         ('tier3', 'Tier 3'),
