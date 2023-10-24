@@ -81,7 +81,7 @@ DATABASES = {
         'USER': config('POSTGRES_USER', default=''),
         'PASSWORD': config('POSTGRES_PASSWORD', default=''),
         'HOST': config('POSTGRES_HOST', default=''),
-        'PORT': '5432',   
+        'PORT': '5432',
     }
 }
 
@@ -127,19 +127,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, "build/static"),
-# ]
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "build/static"),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
 
 SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
+    'AUTH_HEADER_TYPES': ('JWT',),
 }
 
 DJOSER = {
