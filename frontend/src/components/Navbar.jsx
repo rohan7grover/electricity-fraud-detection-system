@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
 
