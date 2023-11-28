@@ -23,7 +23,7 @@ const Navbar = ({ logout, isAuthenticated }) => {
 
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-      <Link className='navbar-brand' to='/'>Auth System</Link>
+      <Link className='navbar-brand' to='/'>Energy Fraud Detection System</Link>
       <button
         className='navbar-toggler'
         type='button'
@@ -38,7 +38,7 @@ const Navbar = ({ logout, isAuthenticated }) => {
       <div className='collapse navbar-collapse' id='navbarNav'>
         <ul className='navbar-nav'>
           <li className='nav-item active'>
-            <Link className='nav-link' to='/'>Home <span className='sr-only'>(current)</span></Link>
+            <Link className='nav-link' to='/'>Dashboard <span className='sr-only'>(current)</span></Link>
           </li>
           {isAuthenticated ? authLinks() : guestLinks()}
         </ul>
