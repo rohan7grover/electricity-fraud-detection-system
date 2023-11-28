@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    'corsheaders',
     "djoser",
     "app",
 ]
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -168,3 +170,10 @@ DJOSER = {
 }
 
 AUTH_USER_MODEL = 'app.UserAccount'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000", 
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
