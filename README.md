@@ -7,34 +7,29 @@ https://drive.google.com/drive/folders/120wz7TA3F_LKeEiqkxvQC1q8535HITAb?usp=dri
 ### Creating Virtual Environment 
 
 ```bash
-conda create --name capstone --file backend/requirements.txt
+conda create --name capstone 
 ```
 
 ### Installing Dependencies
 
 ```bash
-npm i
+cd backend && pip install -r requirements.txt 
+```
+
+```bash
+cd frontend && npm i
 ```
 
 ### Creating .env for Backend
 
 ```bash
-cat <<EOL > backend/.env
-SECRET_KEY=
-EMAIL_HOST_USER=
-EMAIL_HOST_PASSWORD=
-POSTGRES_USER=
-POSTGRES_PASSWORD=
-POSTGRES_HOST=
-EOL
+echo -e "SECRET_KEY=\nEMAIL_HOST_USER=\nEMAIL_HOST_PASSWORD=\nPOSTGRES_USER=\nPOSTGRES_PASSWORD=\nPOSTGRES_HOST=" > ./backend/.env
 ```
 
 ### Creating .env for Frontend
 
 ```bash
-cat <<EOL > frontend/.env
-REACT_APP_API_URL =
-EOL
+echo -e "REACT_APP_API_URL =" > ./frontend/.env
 ```
 
 ### Activating Virtual Environment 
@@ -46,18 +41,18 @@ conda activate casptone
 ### Running Backend Server
 
 ```bash
-python manage.py runserver
+cd backend && python manage.py runserver
 ```
 
 ### Creating Build Files
 
 ```bash
-npm run build
+cd frontend && npm run build
 ```
 
 ### Running React App
 
 ```bash
-npm run start
+cd frontend && npm run start
 ```
 
