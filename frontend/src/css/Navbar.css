@@ -1,0 +1,63 @@
+/* navbar.css */
+
+/* Navbar Container */
+
+.navbar {
+    background-color: #000; /* Set black background color */
+    padding: 10px 20px; /* Adjust the padding as needed */
+  }
+  
+  /* Navbar Brand */
+  .navbar-brand {
+    font-size: 1.5rem; /* Adjust the font size as needed */
+    font-weight: bold;
+    color: #fff; /* Set white text color */
+    text-decoration: none;
+  }
+  
+  /* Navbar Links */
+  .navbar-nav {
+    margin-left: auto;
+  }
+  
+  .nav-item {
+    margin-right: 15px; /* Adjust the spacing between navbar items */
+    background-color: #4CAF50;
+    padding: 3px;
+    border-radius: 10px;
+    color:#fff;
+  }
+  
+  .nav-link {
+    color: black; /* Set white text color */
+    
+    text-decoration: none;
+    transition: color 0.3s ease; /* Add a smooth color transition on hover */
+  
+    &:hover {
+      color: #ccc; /* Set a slightly different color on hover */
+    }
+  }
+  
+  /* Active Link Style */
+  .nav-item.active .nav-link {
+    color: #ccc; /* Set a slightly different color for active links */
+
+  }
+  
+  /* Navbar Toggler Icon */
+  .navbar-toggler-icon {
+    background-color: #fff; /* Set white color for the toggler icon */
+  }
+  
+  /* Responsive Navbar */
+  @media (max-width: 768px) {
+    .navbar-nav {
+      flex-direction: column; /* Stack items vertically on small screens */
+    }
+  
+    .nav-item {
+      margin-right: 0; /* Remove right margin for stacked items */
+      margin-bottom: 10px; /* Add bottom margin for stacked items */
+    }
+  }

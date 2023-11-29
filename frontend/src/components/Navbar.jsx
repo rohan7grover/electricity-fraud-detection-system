@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
+import '../css/Navbar.css';
 
 const Navbar = ({ logout, isAuthenticated }) => {
   const guestLinks = () => (

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Tier1 from './Tier1';
 import Tier2 from './Tier2';
 import Tier3 from './Tier3';
+import '../css/Home.css';
 
 //delete this
 import { useState } from 'react';
