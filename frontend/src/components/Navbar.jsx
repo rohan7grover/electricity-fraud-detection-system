@@ -8,7 +8,7 @@ const Navbar = ({ logout, isAuthenticated }) => {
   const guestLinks = () => (
     <Fragment>
       <li className='nav-item'>
-        <Link className='nav-link' to='/login'>Login</Link>
+        <Link className='nav-link' to='/login'>Sign In</Link>
       </li>
       <li className='nav-item'>
         <Link className='nav-link' to='/signup'>Sign Up</Link>
@@ -34,12 +34,12 @@ const Navbar = ({ logout, isAuthenticated }) => {
         aria-expanded='false'
         aria-label='Toggle navigation'
       >
-        <span className='navbar-toggler-icon'></span>
+      <span className='navbar-toggler-icon'></span>
       </button>
       <div className='collapse navbar-collapse' id='navbarNav'>
         <ul className='navbar-nav'>
           <li className='nav-item active'>
-            <Link className='nav-link' to='/'>Dashboard <span className='sr-only'>(current)</span></Link>
+            <Link className='nav-link' to='/'>Home<span className='sr-only'>(current)</span></Link>
           </li>
           {isAuthenticated ? authLinks() : guestLinks()}
         </ul>
