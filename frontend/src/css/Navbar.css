@@ -1,0 +1,58 @@
+/* Navbar.css */
+
+.navbar {
+  background-color: rgba(0, 0, 0, 0.5) !important; 
+  padding: 10px 20px;
+/* Apply border style only to the bottom */
+  border-bottom-style: solid;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+.navbar-brand {
+  font-size: 1.5rem; 
+  color: white !important; 
+  text-decoration: none;
+}
+
+.navbar-nav {
+  margin-left: auto;
+}
+
+.nav-item {
+  margin-right: 15px;
+}
+
+.nav-link {
+  color: #00ff00 !important; 
+  text-decoration: none;
+  transition: color 0.3s ease; 
+
+  &:hover {
+      color: #fff !important; 
+  }
+}
+
+.nav-item.active .nav-link,
+.nav-item.active .nav-link:hover,
+.nav-item.active > .nav-link {
+  color: #00ff00 !important; 
+}
+
+.nav-item:not(.dashboard).active .nav-link {
+  color: #fff !important; 
+}
+
+.navbar-toggler-icon {
+  background-color: #fff; 
+}
+
+
+@media (max-width: 768px) {
+  .navbar-nav {
+      flex-direction: column; 
+  }
+
+  .nav-item {
+      margin-right: 0;
+      margin-bottom: 10px;
+  }
+}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signup } from '../actions/auth';
+import '../css/Signup.css';
 
 const Signup = ({ signup, isAuthenticated }) => {
   const [accountCreated, setAccountCreated] = useState(false);
@@ -35,6 +36,7 @@ const Signup = ({ signup, isAuthenticated }) => {
 
   return (
     <div className='container mt-5'>
+      <div class='sak'>
       <h1>Sign Up</h1>
       <p>Create your Account</p>
       <form onSubmit={e => onSubmit(e)}>
@@ -42,7 +44,7 @@ const Signup = ({ signup, isAuthenticated }) => {
           <input
             className='form-control'
             type='text'
-            placeholder='Name*'
+            placeholder='Enter your name'
             name='name'
             value={name}
             onChange={e => onChange(e)}
@@ -53,7 +55,7 @@ const Signup = ({ signup, isAuthenticated }) => {
           <input
             className='form-control'
             type='email'
-            placeholder='Email*'
+            placeholder='Enter your email'
             name='email'
             value={email}
             onChange={e => onChange(e)}
@@ -68,7 +70,7 @@ const Signup = ({ signup, isAuthenticated }) => {
             onChange={e => onChange(e)}
             required
           >
-            <option value='' disabled>Select Role*</option>
+            <option value='' disabled>Select Role</option>
             <option value='tier1'>Tier 1</option>
             <option value='tier2'>Tier 2</option>
             <option value='tier3'>Tier 3</option>
@@ -79,7 +81,7 @@ const Signup = ({ signup, isAuthenticated }) => {
           <input
             className='form-control'
             type='password'
-            placeholder='Password*'
+            placeholder='Enter your password'
             name='password'
             value={password}
             onChange={e => onChange(e)}
@@ -91,7 +93,7 @@ const Signup = ({ signup, isAuthenticated }) => {
           <input
             className='form-control'
             type='password'
-            placeholder='Confirm Password*'
+            placeholder='Confirm your password'
             name='re_password'
             value={re_password}
             onChange={e => onChange(e)}
@@ -102,8 +104,9 @@ const Signup = ({ signup, isAuthenticated }) => {
         <button className='btn btn-primary' type='submit'>Register</button>
       </form>
       <p className='mt-3'>
-        Already have an account? <Link to='/login'>Sign In</Link>
+        Already have an account? <Link class='link-text' to='/login'>Sign In</Link>
       </p>
+      </div>
     </div>
   );
 };
