@@ -23,7 +23,7 @@ const Tier1 = ({ user }) => {
         }
 
         const data = await response.json();
-        setAreaCodes(data.areas); // Assuming "area_codes" is the array property in your response
+        setAreaCodes(data.areas);
       } catch (error) {
         setError(error.message);
       }
