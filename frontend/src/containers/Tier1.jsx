@@ -10,7 +10,7 @@ const Tier1 = ({ user }) => {
     const fetchUserDetails = async () => {
         try {
             const userToken = localStorage.getItem('access');
-            const response = await fetch('http://localhost:8000/get-details/', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/get-details/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const Tier1 = ({ user }) => {
         if (userDetails) {
           const userToken = localStorage.getItem('access');
 
-          const response = await fetch(`http://localhost:8000/get-area-codes/${userDetails.city_code}/`, {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/get-area-codes/${userDetails.city_code}/`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

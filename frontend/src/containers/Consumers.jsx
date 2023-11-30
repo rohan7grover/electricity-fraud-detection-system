@@ -13,7 +13,7 @@ const Consumers = ({ isAuthenticated }) => {
         const fetchConsumerIDs = async () => {
             try {
                 const userToken = localStorage.getItem('access');
-                const response = await fetch(`http://localhost:8000/get-consumers/${city_code}/${area_code}/`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/get-consumers/${city_code}/${area_code}/`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

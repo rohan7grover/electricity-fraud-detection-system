@@ -11,7 +11,7 @@ const Tier2 = ({ user }) => {
         const fetchAreaData = async () => {
             try {
                 const userToken = localStorage.getItem('access');
-                const response = await fetch('http://localhost:8000/get-details/', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/get-details/`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
