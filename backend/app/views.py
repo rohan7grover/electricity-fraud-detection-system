@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from .serializers import AreaSerializer
-from .models import Area, City
+from .serializers import AreaSerializer, ConsumerSerializer
+from .models import Area, City, Consumer
 
 class Tier1OfficerAreaView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -47,5 +47,21 @@ class Tier2OfficerAreaView(APIView):
             area = Area.objects.get(tier2_officer=tier2_officer)
             serializer = AreaSerializer(area)
             return Response({'area': serializer.data}, status=status.HTTP_200_OK)
+        else:
+            return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
+
+
+class ConsumersInAreaView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, city_code, area_code, format=None):
+        if request.user.role == 'tier2':
+            tier2_officer = request.user
+            try:
+                area = Area.objects.get(area_code=area_code, city_code=city_code, tier2_officer=tier2_officer)
+            except Area.DoesNotExist:
+                return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
+            consumers = Consumer.objects.filter(city_code=city_code, area_code=area_code)
+            serializer = ConsumerSerializer(consumers, many=True)
+            return Response({'consumers': serializer.data}, status=status.HTTP_200_OK)
         else:
             return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
