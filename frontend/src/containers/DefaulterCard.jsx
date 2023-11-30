@@ -5,12 +5,12 @@ const DefaulterCard = ({ defaulter }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/consumer/${defaulter.consumer_number}`);
+    navigate(`/consumer/${defaulter.consumer_number.consumer_number}`);
   };
 
   return (
     <div style={cardStyle} onClick={handleClick}>
-      <h3>Consumer ID: {defaulter.consumer_number}</h3>
+      <h3>Consumer ID: {defaulter.consumer_number.consumer_number}</h3>
     </div>
   );
 };

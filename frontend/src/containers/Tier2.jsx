@@ -10,7 +10,7 @@ const Tier2 = ({ user }) => {
         const fetchAreaData = async () => {
             try {
                 const userToken = localStorage.getItem('access');
-                const response = await fetch('http://localhost:8000/get-area-code/', {
+                const response = await fetch('http://localhost:8000/get-details/', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ const Tier2 = ({ user }) => {
                 }
 
                 const data = await response.json();
-                setAreaData(data.area);
+                setAreaData(data.details);
             } catch (error) {
                 setError(error.message);
             }
@@ -47,6 +47,7 @@ const Tier2 = ({ user }) => {
             {error && <p>Error: {error}</p>}
             {areaData && (
                 <div>
+                    <p>Name: {user ? user.name : ''}</p>
                     <p>Area Code: {areaData.area_code}</p>
                     <p>Area Name: {areaData.area_name}</p>
                     <p>City Code: {areaData.city_code}</p>

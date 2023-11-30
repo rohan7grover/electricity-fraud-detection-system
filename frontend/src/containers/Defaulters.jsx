@@ -19,7 +19,7 @@ const Defaulters = ({ isAuthenticated }) => {
       try {
         const userToken = localStorage.getItem('access');
 
-        const response = await fetch(`http://localhost:8000/defaulters/${area_code}`, {
+        const response = await fetch(`http://localhost:8000/get-defaulters/1/${area_code}/`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
