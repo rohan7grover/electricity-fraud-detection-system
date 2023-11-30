@@ -5,7 +5,7 @@ const Tier1Card = ({ area }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/defaulters/${area.area_code}?area_name=${encodeURIComponent(area.area_name)}`);
+    navigate(`/defaulters/${area?.city_code || ''}/${area?.area_code || ''}?area_name=${encodeURIComponent(area?.area_name || '')}`);
   };
   return (
     <div style={cardStyle} onClick={handleClick}>

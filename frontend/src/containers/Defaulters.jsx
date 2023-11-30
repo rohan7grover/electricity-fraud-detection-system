@@ -8,6 +8,7 @@ const Defaulters = ({ isAuthenticated }) => {
   const [error, setError] = useState(null);
 
   const { area_code } = useParams();
+  const { city_code } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -19,7 +20,7 @@ const Defaulters = ({ isAuthenticated }) => {
       try {
         const userToken = localStorage.getItem('access');
 
-        const response = await fetch(`http://localhost:8000/get-defaulters/1/${area_code}/`, {
+        const response = await fetch(`http://localhost:8000/get-defaulters/${city_code}/${area_code}/`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -43,7 +44,7 @@ const Defaulters = ({ isAuthenticated }) => {
     } else {
       navigate('/');
     }
-  }, [area_code, isAuthenticated, navigate]);
+  }, [city_code,area_code, isAuthenticated, navigate]);
 
   return (
     <div>
