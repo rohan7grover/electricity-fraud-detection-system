@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const Tier2 = ({ user }) => {
     const [areaData, setAreaData] = useState(null);
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,6 +27,8 @@ const Tier2 = ({ user }) => {
                 setAreaData(data.details);
             } catch (error) {
                 setError(error.message);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -45,7 +48,8 @@ const Tier2 = ({ user }) => {
             <h1>Tier2</h1>
 
             {error && <p>Error: {error}</p>}
-            {areaData && (
+            {isLoading && <p>Loading...</p>}
+            {areaData && !isLoading && (
                 <div>
                     <p>Name: {user ? user.name : ''}</p>
                     <p>Area Code: {areaData.area_code}</p>
@@ -54,8 +58,12 @@ const Tier2 = ({ user }) => {
                 </div>
             )}
 
-            <button onClick={handleButtonClickDefaulters}>Show Defaulters List</button>
-            <button onClick={handleButtonClickConsumers}>Show Consumers List</button>
+            <button onClick={handleButtonClickDefaulters} disabled={isLoading}>
+                Show Defaulters List
+            </button>
+            <button onClick={handleButtonClickConsumers} disabled={isLoading}>
+                Show Consumers List
+            </button>
         </div>
     );
 };
