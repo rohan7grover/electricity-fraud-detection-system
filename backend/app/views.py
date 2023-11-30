@@ -6,8 +6,10 @@ from rest_framework import status
 from .serializers import AreaSerializer
 from .models import Area, City
 
+
 class Tier1OfficerAreaView(APIView):
     permission_classes = (IsAuthenticated,)
+
     def get(self, request, format=None):
         if request.user.role == 'tier1':
             tier1_officer = request.user
@@ -15,5 +17,18 @@ class Tier1OfficerAreaView(APIView):
             areas = Area.objects.filter(city_code=city.city_code)
             serializer = AreaSerializer(areas, many=True)
             return Response({'areas': serializer.data}, status=status.HTTP_200_OK)
+        else:
+            return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
+
+
+class Tier2OfficerAreaView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+        if request.user.role == 'tier2':
+            tier2_officer = request.user
+            area = Area.objects.get(tier2_officer=tier2_officer)
+            serializer = AreaSerializer(area)
+            return Response({'area': serializer.data}, status=status.HTTP_200_OK)
         else:
             return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
