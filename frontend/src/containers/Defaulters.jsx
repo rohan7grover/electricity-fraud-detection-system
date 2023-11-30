@@ -1,36 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import DefaulterCard from './DefaulterCard';
 
 const Defaulters = ({ isAuthenticated }) => {
+  const [defaulterList, setDefaulterList] = useState([]);
+  const [error, setError] = useState(null);
+
   const { area_code } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const defaulterIDS = ['123', '456', '567'];
-
-  if (!isAuthenticated) {
-    navigate('/');
-  }
 
   const searchParams = new URLSearchParams(location.search);
   const area_name = searchParams.get('area_name');
+
+  useEffect(() => {
+    const fetchDefaulters = async () => {
+      try {
+        const userToken = localStorage.getItem('access');
+
+        const response = await fetch(`http://localhost:8000/defaulters/${area_code}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `JWT ${userToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch defaulters');
+        }
+
+        const data = await response.json();
+        setDefaulterList(data.defaulters);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchDefaulters();
+    } else {
+      navigate('/');
+    }
+  }, [area_code, isAuthenticated, navigate]);
 
   return (
     <div>
       <h1>Defaulters</h1>
       <p>Area Code: {area_code}</p>
       <p>Area Name: {area_name}</p>
-
-      {defaulterIDS.map((uid, index) => (
-        <DefaulterCard key={index} uid={uid} />
+      {error && <p>Error: {error}</p>}
+      {defaulterList.map((defaulter, index) => (
+        <DefaulterCard key={index} defaulter={defaulter} />
       ))}
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps)(Defaulters);
+    isAuthenticated: state.auth.isAuthenticated,
+  });
+  
+  export default connect(mapStateToProps)(Defaulters);

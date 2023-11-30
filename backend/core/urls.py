@@ -11,6 +11,7 @@ urlpatterns = [
     path('get-area-codes/', Tier1OfficerAreaView.as_view(), name='tier1-officer-area-codes'),
     path('get-area-code/', Tier2OfficerAreaView.as_view(), name='tier2-officer-area-code'),
     path('get-consumers/:city-code/:area-code', Tier2OfficerAreaView.as_view(), name='tier2-officer-area-code'),
+    path('defaulters/<int:city_code>/<int:area_code>/', DefaultersInAreaAPIView.as_view(), name='area-defaulters'),
 ]
 
 urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
