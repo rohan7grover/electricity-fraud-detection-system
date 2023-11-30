@@ -33,7 +33,7 @@ const Tier2 = ({ user }) => {
     }, []);
 
     const handleButtonClickDefaulters = () => {
-        navigate(`/defaulters/${areaData?.area_code || ''}?area_name=${encodeURIComponent(areaData?.area_name || '')}`);
+        navigate(`/defaulters/${areaData?.city_code || ''}/${areaData?.area_code || ''}?area_name=${encodeURIComponent(areaData?.area_name || '')}`);
     };
 
     const handleButtonClickConsumers = () => {

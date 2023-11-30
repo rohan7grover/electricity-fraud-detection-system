@@ -30,7 +30,7 @@ const App = () => {
             <Route exact path="reset-password" element={<ResetPassword />} />
             <Route exact path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm />} />
             <Route exact path="/activate/:uid/:token" element={<Activate />} />
-            <Route exact path="/defaulters/:area_code" element={<Defaulters />} />
+            <Route exact path="/defaulters/:city_code/:area_code" element={<Defaulters />} />
             <Route exact path="/consumers/:city_code/:area_code" element={<Consumers />} />
             <Route exact path="/consumer/:uid" element={<ConsumerUsage />} />
           </Routes>

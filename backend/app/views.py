@@ -83,14 +83,8 @@ class UserDetailsView(APIView):
 
 class ConsumersInAreaView(APIView):
     permission_classes = (IsAuthenticated,)
-
-    def get(self, request, format=None):
-        if request.user.role == 'tier1':
-            tier1_officer = request.user
-            city = City.objects.get(tier1_officer=tier1_officer)
-            serializer = CitySerializer(city)
-            return Response({'details': serializer.data}, status=status.HTTP_200_OK)
-        elif request.user.role == 'tier2':
+    def get(self, request, city_code, area_code, format=None):
+        if request.user.role == 'tier2':
             tier2_officer = request.user
             try:
                 area = Area.objects.get(area_code=area_code, city_code=city_code, tier2_officer=tier2_officer)
