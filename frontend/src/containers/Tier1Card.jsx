@@ -1,16 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Tier1Card = ({ areaCode }) => {
+const Tier1Card = ({ area }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/defaulters/${areaCode}`);
+    navigate(`/defaulters/${area.area_code}`);
   };
+  
 
   return (
     <div style={cardStyle} onClick={handleClick}>
-      <h3>Area Code: {areaCode}</h3>
+      <h3>Area Code: {area.area_code}</h3>
+      <h3>Area Name: {area.area_name}</h3>      
     </div>
   );
 };

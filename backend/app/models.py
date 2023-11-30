@@ -39,3 +39,64 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     
     def __str__(self):
         return self.email
+    
+
+class Area(models.Model):
+    area_code = models.IntegerField()  
+    city_code = models.ForeignKey('City', models.DO_NOTHING, db_column='city_code')
+    area_name = models.CharField(max_length=255)
+    tier2_officer = models.OneToOneField(UserAccount, models.DO_NOTHING, db_column='tier2_officer',primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'area'
+        unique_together = (('area_code', 'city_code'),)
+
+
+class City(models.Model):
+    city_code = models.IntegerField(primary_key=True)
+    city_name = models.CharField(unique=True, max_length=255)
+    tier1_officer = models.OneToOneField(UserAccount, models.DO_NOTHING, db_column='tier1_officer')
+
+    class Meta:
+        managed = False
+        db_table = 'city'
+
+
+class Consumer(models.Model):
+    consumer_number = models.IntegerField(primary_key=True)
+    area_code = models.ForeignKey(Area, models.DO_NOTHING, db_column='area_code', blank=True, null=True)
+    city_code = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'consumer'
+
+
+class ConsumptionHistory(models.Model):
+    consumer_number = models.OneToOneField(Consumer, models.DO_NOTHING, db_column='consumer_number', primary_key=True)  # The composite primary key (consumer_number, time) found, that is not supported. The first column is selected.
+    time = models.DateTimeField()
+    consumption = models.FloatField()
+
+    class Meta:
+        managed = False
+        db_table = 'consumption_history'
+        unique_together = (('consumer_number', 'time'),)
+
+
+class Fraud(models.Model):
+    consumer_number = models.OneToOneField(Consumer, models.DO_NOTHING, db_column='consumer_number', primary_key=True)
+    fraud_status = models.BooleanField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'fraud'
+
+
+class Tier2Tier3Relationship(models.Model):
+    tier3_officer = models.OneToOneField(UserAccount, models.DO_NOTHING, db_column='tier3_officer', primary_key=True)
+    tier2_officer = models.ForeignKey(Area, models.DO_NOTHING, db_column='tier2_officer', to_field='tier2_officer')
+
+    class Meta:
+        managed = False
+        db_table = 'tier2_tier3_relationship'

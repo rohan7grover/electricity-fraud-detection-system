@@ -1,25 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Tier1Card from './Tier1Card';
 
 const Tier1 = ({ user }) => {
+  const [areas, setAreaCodes] = useState([]);
+  const [error, setError] = useState(null);
 
-    const areaCodes = ['123', '456', '658', '765', '101'];
+  useEffect(() => {
+    const fetchAreaCodes = async () => {
+      try {
+        const userToken = localStorage.getItem('access');
 
-    return (
-        <div>
-            {/* <h1>Tier1</h1>
-            <p>Name: {user ? user.id : ''}</p>
-            <p>Name: {user ? user.name : ''}</p>
-            <p>Email: {user ? user.email : ''}</p>
-            <p>Role: {user ? user.role : ''}</p> */}
+        const response = await fetch('http://localhost:8000/get-area-codes/', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `JWT ${userToken}`,
+          },
+        });
 
-            {areaCodes.map((areaCode, index) => (
-                <Tier1Card key={index} areaCode={areaCode} />
-            ))}
-        </div>
-    );
+        if (!response.ok) {
+          throw new Error('Failed to fetch area codes');
+        }
+
+        const data = await response.json();
+        setAreaCodes(data.areas); // Assuming "area_codes" is the array property in your response
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchAreaCodes();
+  }, []);
+
+  return (
+    <div>
+      {error && <p>Error: {error}</p>}
+      {Array.isArray(areas) && areas.map((area, index) => (
+        <Tier1Card key={index} area={area} />
+      ))}
+    </div>
+  );
 };
 
 export default Tier1;
-
-
