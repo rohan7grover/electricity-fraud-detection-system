@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
+import GraphComponent from './Graph';
 
 const ConsumerUsage = ({ isAuthenticated }) => {
     const { uid } = useParams();
@@ -60,6 +61,7 @@ const ConsumerUsage = ({ isAuthenticated }) => {
             <button onClick={handleToggleDefaulterStatus}>
                 {isDefaulter ? 'Remove from Defaulters' : 'Add to Defaulters'}
             </button>
+            <GraphComponent consumer_number={uid} />
         </div>
     );
 };

@@ -50,3 +50,11 @@ class Tier2Tier3RelationshipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tier2Tier3Relationship
         fields = ['tier3_officer', 'tier2_officer']
+
+class DateOnlyField(serializers.DateField):
+    def to_representation(self, value):
+        return value.date()
+
+class CustomConsumptionHistorySerializer(serializers.Serializer):
+    week = DateOnlyField()
+    total_consumption = serializers.DecimalField(max_digits=10, decimal_places=2)
