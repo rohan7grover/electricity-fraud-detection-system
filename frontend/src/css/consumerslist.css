@@ -1,0 +1,46 @@
+.cardStyleconsumer {
+    cursor: pointer;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    /* background-color: white; */
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    height: auto;
+    width: calc(33.33% - 40px);
+    display: inline-block;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+  
+.cardStyleconsumer:hover {
+transform: scale(1.05);
+}
+
+.cardsconsumer {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-around;
+max-width: 1400px;
+margin: 0 auto;
+overflow-y: auto;
+margin-top: 20px;
+z-index: 1;
+}
+
+.headconsumer {
+background-color: rgba(0, 0, 0, 0.5);
+width: 80%;
+max-width: 600px;
+padding: 20px;
+position: relative;
+margin: 20px auto;
+text-align: center;
+border-radius: 15px;
+font-size: 1.8em;
+color: #fff;
+border: 2px solid rgba(255, 255, 255, 0.2);
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+  

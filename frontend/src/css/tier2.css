@@ -1,0 +1,49 @@
+.paragraph2 {
+    font-size: 1.0em;
+}
+  
+.head2 {
+background-color: rgba(0, 0, 0, 0.5);
+width: 80%;
+max-width: 600px;
+padding: 20px;
+position: relative;
+margin: 40px auto; 
+text-align: left;
+border-radius: 15px;
+font-size: 1.2em;
+color: #fff;
+border: 2px solid rgba(255, 255, 255, 0.2);
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+z-index: 2;
+}
+  
+.center-align2 {
+text-align: center;
+}
+
+.button2 {
+text-align: center;
+margin-top: 40px; 
+}
+  
+.button2 button {
+margin: 0 20px; 
+display: inline-block;
+padding: 15px 30px; 
+font-size: 18px; 
+font-weight: bold;
+text-align: center;
+text-decoration: none;
+background-color: rgba(0, 255, 0, 0.6); 
+color: #fff;
+border-radius: 10px;
+border: none; 
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+  
+.button2 button:hover {
+background-color: rgba(0, 128, 0, 0.6); 
+}
+  

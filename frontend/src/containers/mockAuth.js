@@ -1,10 +1,10 @@
 export const mockAuthenticate = () => {
     return {
-        isAuthenticated: false,
+        isAuthenticated: true,
         user: {
             id: '1',
             name: 'mockUser',
-            role: 'tier1',
+            role: 'tier2',
             email: 'mockEmail@gmail.com'
         },
     };

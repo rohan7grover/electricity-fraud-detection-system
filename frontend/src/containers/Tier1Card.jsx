@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 const Tier1Card = ({ areaCode }) => {
   const navigate = useNavigate();
 
@@ -9,19 +10,12 @@ const Tier1Card = ({ areaCode }) => {
   };
 
   return (
-    <div style={cardStyle} onClick={handleClick}>
-      <h3>Area Code: {areaCode}</h3>
+    <div class='cardstyle' onClick={handleClick}>
+      <h4>Area Code: {areaCode}</h4>
+      <h4>Area Name: urban estate</h4>
+      <h4>Number of Defaulters: 30</h4>
     </div>
   );
-};
-
-const cardStyle = {
-  cursor: 'pointer',
-  border: '1px solid #ddd',
-  padding: '10px',
-  margin: '10px',
-  borderRadius: '5px',
-  backgroundColor: '#f9f9f9',
 };
 
 export default Tier1Card;

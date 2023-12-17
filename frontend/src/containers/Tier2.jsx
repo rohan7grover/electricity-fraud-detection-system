@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/tier2.css';
 
 const Tier2 = ({ user }) => {
     const navigate = useNavigate();
@@ -16,14 +17,17 @@ const Tier2 = ({ user }) => {
 
     return (
         <div>
-            <h1>Tier2</h1>
-            <p>ID: {user ? user.id : ''}</p>
-            <p>Name: {user ? user.name : ''}</p>
-            <p>Email: {user ? user.email : ''}</p>
-            <p>Role: {user ? user.role : ''}</p>
-
+            <div className='head2'>
+            <h1 className='center-align2'>Tier2 Dashboard</h1>
+            <p className='paragraph2'>ID: {user ? user.id : ''}</p>
+            <p className='paragraph2'>Name: {user ? user.name : ''}</p>
+            <p className='paragraph2'>Email: {user ? user.email : ''}</p>
+            <p className='paragraph2'>Role: {user ? user.role : ''}</p>
+            </div>
+            <div className='button2'>
             <button onClick={handleButtonClickDefaulters}>Show Defaulters List</button>
             <button onClick={handleButtonClickConsumers}>Show Consumers List</button>
+            </div>
         </div>
     );
 };
