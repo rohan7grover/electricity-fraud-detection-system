@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
-from app.views import Tier1OfficerAreaView,UserDetailsView,DefaultersInAreaView,ConsumersInAreaView,ConsumptionHistoryView
+from app.views import *
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -12,6 +12,9 @@ urlpatterns = [
     path('get-consumers/<int:city_code>/<int:area_code>/', ConsumersInAreaView.as_view(), name='tier-2-get-consumers'),
     path('get-defaulters/<int:city_code>/<int:area_code>/', DefaultersInAreaView.as_view(), name='area-defaulters'),
     path('get-consumption-history/<int:consumer_number>/', ConsumptionHistoryView.as_view(), name='consumption_history_api'),
+    path('get-tier3-officers/', Tier3OfficersUnderTier2.as_view(), name='tier3_officers'),
+    path('submit-report/<int:consumer_number>/', SubmitReport.as_view(), name='submit_report_api'),
+    path('assign-raid/<int:tier3_officer_id>/', AssignRaid.as_view(), name='assign_raid'),
 ]
 
 urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]

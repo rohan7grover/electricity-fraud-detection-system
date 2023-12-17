@@ -176,8 +176,11 @@ DJOSER = {
 AUTH_USER_MODEL = 'app.UserAccount'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000", 
+    "http://localhost:3000",
+    "http://localhost:8000"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
+# added by me
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'http://localhost:8000']

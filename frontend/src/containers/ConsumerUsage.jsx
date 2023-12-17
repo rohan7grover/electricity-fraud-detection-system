@@ -30,6 +30,9 @@ const ConsumerUsage = ({ isAuthenticated }) => {
     }
 
     const handleToggleDefaulterStatus = async () => {
+        
+        //also write code to delete all PENDING RAIDS FOR THAT CONSUMER ID IN RAID_STATUS TABLE
+
         try {
             const updatedStatus = !isDefaulter;
 
