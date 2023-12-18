@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const DefaulterCard = ({ defaulter }) => {
+const DefaulterCard = ({ defaulter, user_role }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/consumer/${defaulter.consumer_number.consumer_number}`);
+    navigate(`/consumer/${defaulter.consumer_number.consumer_number}?user_role=${user_role}`);
   };
 
   return (

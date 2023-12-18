@@ -309,9 +309,13 @@ class ConsumptionHistoryHourlyView(APIView):
 
 # update fraud status
 class FraudStatusUpdateAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
     parser_classes = [JSONParser]
 
     def patch(self, request, consumer_number, *args, **kwargs):
+        if request.user.role not in ['tier1', 'tier2']:
+            return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
+        
         fraud_instance = Fraud.objects.get(consumer_number=consumer_number)
         serializer = FraudStatusSerializer(
             fraud_instance, data=request.data, partial=True)

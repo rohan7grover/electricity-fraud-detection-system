@@ -15,6 +15,7 @@ const Defaulters = ({ isAuthenticated }) => {
   const searchParams = new URLSearchParams(location.search);
   const area_name = searchParams.get('area_name');
   const officer_name = searchParams.get('officer_name');
+  const user_role = searchParams.get('user_role');
 
   useEffect(() => {
     const fetchDefaulters = async () => {
@@ -55,7 +56,7 @@ const Defaulters = ({ isAuthenticated }) => {
       {officer_name && <p>Tier 2 Officer Name: {officer_name}</p>}
       {error && <p>Error: {error}</p>}
       {defaulterList.map((defaulter, index) => (
-        <DefaulterCard key={index} defaulter={defaulter} />
+        <DefaulterCard key={index} defaulter={defaulter} user_role={user_role}/>
       ))}
     </div>
   );

@@ -73,7 +73,7 @@ const Tier1 = ({ user }) => {
         </div>
       )}
       {Array.isArray(areas) && areas.map((area, index) => (
-        <Tier1Card key={index} area={area} />
+        <Tier1Card key={index} area={area} user={user}/>
       ))}
     </div>
   );

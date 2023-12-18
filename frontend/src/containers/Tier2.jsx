@@ -36,11 +36,11 @@ const Tier2 = ({ user }) => {
     }, []);
 
     const handleButtonClickDefaulters = () => {
-        navigate(`/defaulters/${areaData?.city_code.city_code || ''}/${areaData?.area_code || ''}?area_name=${encodeURIComponent(areaData?.area_name || '')}`);
+        navigate(`/defaulters/${areaData?.city_code.city_code || ''}/${areaData?.area_code || ''}?area_name=${encodeURIComponent(areaData?.area_name || '')}&user_role=${user.role}`);
     };
 
     const handleButtonClickConsumers = () => {
-        navigate(`/consumers/${areaData?.city_code.city_code || ''}/${areaData?.area_code || ''}`);
+        navigate(`/consumers/${areaData?.city_code.city_code || ''}/${areaData?.area_code || ''}?user_role=${user.role}`);
     };
 
     return (

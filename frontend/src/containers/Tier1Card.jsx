@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Tier1Card = ({ area }) => {
+const Tier1Card = ({ area, user }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/defaulters/${area?.city_code || ''}/${area?.area_code || ''}?area_name=${encodeURIComponent(area?.area_name || '')}&officer_name=${encodeURIComponent(area?.tier2_officer.name || '')}`);
+    navigate(`/defaulters/${area?.city_code || ''}/${area?.area_code || ''}?area_name=${encodeURIComponent(area?.area_name || '')}&officer_name=${encodeURIComponent(area?.tier2_officer.name || '')}&user_role=${user.role}`);
   };
   return (
     <div style={cardStyle} onClick={handleClick}>

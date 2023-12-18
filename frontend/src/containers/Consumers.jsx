@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import ConsumerCard from './ConsumerCard';
 
 const Consumers = ({ isAuthenticated }) => {
@@ -8,6 +8,10 @@ const Consumers = ({ isAuthenticated }) => {
     const navigate = useNavigate();
     const [consumers, setConsumers] = useState([]);
     const [error, setError] = useState(null);
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const user_role = searchParams.get('user_role');
 
     useEffect(() => {
         const fetchConsumerIDs = async () => {
@@ -39,7 +43,6 @@ const Consumers = ({ isAuthenticated }) => {
         navigate('/');
     }
 
-    console.log(consumers);
     return (
         <div>
             <h1>Consumers</h1>
@@ -47,7 +50,7 @@ const Consumers = ({ isAuthenticated }) => {
 
             {error && <p>Error: {error}</p>}
             {consumers.map((consumer, index) => (
-                <ConsumerCard key={index} consumerData={consumer} />
+                <ConsumerCard key={index} consumerData={consumer} user_role={user_role}/>
             ))}
         </div>
     );
