@@ -4,16 +4,19 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from django.db.models.functions import TruncWeek,TruncDate
-from django.db.models import Sum,Count,OuterRef,Subquery
+from django.db.models.functions import TruncWeek, TruncDate
+from django.db.models import Sum, Count, OuterRef, Subquery
 from datetime import timezone
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 from django.db import models
-from .serializers import AreaSerializer,CitySerializer,FraudSerializer, ConsumerSerializer, WeeklyConsumptionHistorySerializer,DailyConsumptionHistorySerializer,FraudStatusSerializer,RaidStatusSerializer,ConsumptionHistorySerializer,CustomAreaSerializer,Tier2Tier3RelationshipSerializer
-from .models import Area, City,Fraud, Consumer, Area, ConsumptionHistory, RaidStatus, Tier2Tier3Relationship
+from .serializers import *
+from .models import *
+from django.db.models import Count, Q
 
+
+# get all areas of a city
 class Tier1OfficerAreaView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -21,19 +24,24 @@ class Tier1OfficerAreaView(APIView):
         if request.user.role == 'tier1':
             tier1_officer = request.user
             try:
-                City.objects.get(city_code=city_code, tier1_officer=tier1_officer)
+                City.objects.get(city_code=city_code,
+                                 tier1_officer=tier1_officer)
             except City.DoesNotExist:
                 return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
 
-            subquery = Fraud.objects.filter(consumer_number__area_code=OuterRef('area_code'),consumer_number__city_code=city_code, fraud_status=True).values('consumer_number__area_code').annotate(defaulter_count=Count('consumer_number__area_code')).values('defaulter_count')
+            subquery = Fraud.objects.filter(consumer_number__area_code=OuterRef('area_code'), consumer_number__city_code=city_code, fraud_status=True).values(
+                'consumer_number__area_code').annotate(defaulter_count=Count('consumer_number__area_code')).values('defaulter_count')
 
-            areas = Area.objects.filter(city_code=city_code).annotate(defaulter_count=Subquery(subquery)).order_by('area_code')
+            areas = Area.objects.filter(city_code=city_code).annotate(
+                defaulter_count=Subquery(subquery)).order_by('area_code')
 
             serialized_areas = CustomAreaSerializer(areas, many=True).data
             return Response({'areas': serialized_areas}, status=status.HTTP_200_OK)
         else:
             return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
 
+
+# get all defaulters in the area or city of the logged in user
 class DefaultersInAreaView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -41,13 +49,15 @@ class DefaultersInAreaView(APIView):
         if request.user.role == 'tier1':
             tier1_officer = request.user
             try:
-                City.objects.get(city_code=city_code, tier1_officer=tier1_officer)
+                City.objects.get(city_code=city_code,
+                                 tier1_officer=tier1_officer)
             except City.DoesNotExist:
                 return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
         elif request.user.role == 'tier2':
             tier2_officer = request.user
             try:
-                Area.objects.get(area_code=area_code, city_code=city_code, tier2_officer=tier2_officer)
+                Area.objects.get(
+                    area_code=area_code, city_code=city_code, tier2_officer=tier2_officer)
             except Area.DoesNotExist:
                 return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
         else:
@@ -62,7 +72,7 @@ class DefaultersInAreaView(APIView):
         return Response({'defaulters': serializer.data}, status=status.HTTP_200_OK)
 
 
-
+# get the required details for the first page of logged in user
 class UserDetailsView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -87,6 +97,8 @@ class UserDetailsView(APIView):
         else:
             return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
 
+
+# get all the consumers data in the area of a particular logged in tier2 user
 class ConsumersInAreaView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -94,16 +106,19 @@ class ConsumersInAreaView(APIView):
         if request.user.role == 'tier2':
             tier2_officer = request.user
             try:
-                Area.objects.get(area_code=area_code, city_code=city_code, tier2_officer=tier2_officer)
+                Area.objects.get(
+                    area_code=area_code, city_code=city_code, tier2_officer=tier2_officer)
             except Area.DoesNotExist:
                 return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
-            consumers = Consumer.objects.filter(city_code=city_code, area_code=area_code).order_by('consumer_number')
+            consumers = Consumer.objects.filter(
+                city_code=city_code, area_code=area_code).order_by('consumer_number')
             serializer = ConsumerSerializer(consumers, many=True)
             return Response({'consumers': serializer.data}, status=status.HTTP_200_OK)
         else:
             return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
 
 
+# get consumption history weekly data
 class ConsumptionHistoryWeeklyView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -144,10 +159,13 @@ class ConsumptionHistoryWeeklyView(APIView):
             total_consumption=Sum('consumption')
         ).order_by('week')
 
-        serializer = WeeklyConsumptionHistorySerializer(aggregated_data, many=True)
+        serializer = WeeklyConsumptionHistorySerializer(
+            aggregated_data, many=True)
 
         return Response({'consumption_history': serializer.data}, status=status.HTTP_200_OK)
 
+
+# get consumption history daily data
 class ConsumptionHistoryDailyView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -155,7 +173,8 @@ class ConsumptionHistoryDailyView(APIView):
         user_tier = request.user.role
         if user_tier == 'tier1':
             try:
-                user_city_code = City.objects.get(tier1_officer=request.user).city_code
+                user_city_code = City.objects.get(
+                    tier1_officer=request.user).city_code
             except City.DoesNotExist:
                 return Response({'detail': 'City information not found for the tier1 user'},
                                 status=status.HTTP_403_FORBIDDEN)
@@ -170,7 +189,7 @@ class ConsumptionHistoryDailyView(APIView):
 
         consumption_history = ConsumptionHistory.objects.filter(
             consumer_number__consumer_number=consumer_number,
-            consumer_number__city_code=user_city_code, 
+            consumer_number__city_code=user_city_code,
         )
 
         if user_tier == 'tier2':
@@ -187,11 +206,13 @@ class ConsumptionHistoryDailyView(APIView):
             total_consumption=Sum('consumption')
         ).order_by('date')
 
-        serializer = DailyConsumptionHistorySerializer(aggregated_data, many=True)
+        serializer = DailyConsumptionHistorySerializer(
+            aggregated_data, many=True)
 
         return Response({'consumption_history': serializer.data}, status=status.HTTP_200_OK)
 
 
+# check if user is fraud
 class CheckFraudStatus(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -199,7 +220,8 @@ class CheckFraudStatus(APIView):
         user_tier = request.user.role
         if user_tier == 'tier1':
             try:
-                user_city_code = City.objects.get(tier1_officer=request.user).city_code
+                user_city_code = City.objects.get(
+                    tier1_officer=request.user).city_code
             except City.DoesNotExist:
                 return Response({'detail': 'City information not found for the tier1 user'},
                                 status=status.HTTP_403_FORBIDDEN)
@@ -214,7 +236,7 @@ class CheckFraudStatus(APIView):
 
         fraud_status = Fraud.objects.filter(
             consumer_number__consumer_number=consumer_number,
-            consumer_number__city_code=user_city_code, 
+            consumer_number__city_code=user_city_code,
         )
 
         if user_tier == 'tier2':
@@ -224,12 +246,13 @@ class CheckFraudStatus(APIView):
 
         if not fraud_status.exists():
             return Response({'detail': 'Consumer not found'}, status=status.HTTP_404_NOT_FOUND)
-        
+
         serializer = FraudStatusSerializer(fraud_status.first(), many=False)
 
         return Response({'fraud_status': serializer.data}, status=status.HTTP_200_OK)
 
 
+# get consumption history hourly data
 class ConsumptionHistoryHourlyView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -237,19 +260,21 @@ class ConsumptionHistoryHourlyView(APIView):
         user_tier = request.user.role
 
         date_param = request.query_params.get('date', None)
-        
+
         if not date_param:
             return Response({'detail': 'Date parameter is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Convert the date parameter to a datetime object
         try:
-            target_date = timezone.datetime.strptime(date_param, '%Y-%m-%d').date()
+            target_date = timezone.datetime.strptime(
+                date_param, '%Y-%m-%d').date()
         except ValueError:
             return Response({'detail': 'Invalid date format. Use YYYY-MM-DD'}, status=status.HTTP_400_BAD_REQUEST)
 
         if user_tier == 'tier1':
             try:
-                user_city_code = City.objects.get(tier1_officer=request.user).city_code
+                user_city_code = City.objects.get(
+                    tier1_officer=request.user).city_code
             except City.DoesNotExist:
                 return Response({'detail': 'City information not found for the tier1 user'},
                                 status=status.HTTP_403_FORBIDDEN)
@@ -276,16 +301,20 @@ class ConsumptionHistoryHourlyView(APIView):
         if not consumption_history.exists():
             return Response({'detail': 'Consumer not found for the given date'}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = ConsumptionHistorySerializer(consumption_history, many=True)
+        serializer = ConsumptionHistorySerializer(
+            consumption_history, many=True)
 
         return Response({'consumption_history': serializer.data}, status=status.HTTP_200_OK)
 
 
+# update fraud status
 class FraudStatusUpdateAPIView(APIView):
     parser_classes = [JSONParser]
+
     def patch(self, request, consumer_number, *args, **kwargs):
         fraud_instance = Fraud.objects.get(consumer_number=consumer_number)
-        serializer = FraudStatusSerializer(fraud_instance, data=request.data, partial=True)
+        serializer = FraudStatusSerializer(
+            fraud_instance, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
@@ -293,43 +322,8 @@ class FraudStatusUpdateAPIView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class SubmitReport(APIView):
-    def patch(self, request, format=None):
-        # Extract data from the request
-        tier3_officer_id = request.user.id
-        consumer_number_value = request.data.get('consumer_number', None)
-        is_defaulter_value = request.data.get('is_defaulter', None)
-        image_id_value = request.data.get('image_id', None)
-        comment_value = request.data.get('comment', None)
 
-        # Validate if all required fields are present in the request
-        if not (is_defaulter_value):
-            return Response({'detail': 'Missing required data in the request'},
-                            status=status.HTTP_400_BAD_REQUEST)
-
-        # Check if the tier3 officer is assigned to the specified consumer's raid
-        try:
-            pending_raid = RaidStatus.objects.get(
-                consumer_number=consumer_number_value,
-                tier3_officer=tier3_officer_id,
-                raid_status='pending'
-            )
-        except RaidStatus.DoesNotExist:
-            return Response({'detail': 'No pending raid found for the specified consumer and tier3 officer'},
-                            status=status.HTTP_404_NOT_FOUND)
-
-        # Perform the update with the provided data
-        pending_raid.raid_status = 'completed'
-        pending_raid.is_defaulter = is_defaulter_value
-        pending_raid.image_id = image_id_value
-        pending_raid.comment = comment_value
-        pending_raid.raid_date = timezone.now()
-        pending_raid.save()
-
-        serializer = RaidStatusSerializer(pending_raid)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-# Get all tier 3 officers under tier2 officer
+# get tier3 officer details for a tier2 user
 class Tier3OfficersUnderTier2(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -343,10 +337,25 @@ class Tier3OfficersUnderTier2(APIView):
                 return Response({'detail': 'No Tier 3 officers found under the Tier 2 officer'},
                                 status=status.HTTP_404_NOT_FOUND)
 
-            serializer = Tier2Tier3RelationshipSerializer(
-                tier3_officers, many=True)
+            result = []
+            for relationship in tier3_officers:
+                tier3_officer = relationship.tier3_officer
+                pending_raids_count = RaidStatus.objects.filter(
+                    tier3_officer=tier3_officer.id,
+                    raid_status='pending'
+                ).count()
 
-            return Response({'tier3_officers': serializer.data}, status=status.HTTP_200_OK)
+                # Create the result dictionary for the current tier3 officer
+                tier3_officer_data = {
+                    "id": tier3_officer.id,
+                    "email": tier3_officer.email,
+                    "name": tier3_officer.name,
+                    "pending_raids_count": pending_raids_count
+                }
+
+                result.append(tier3_officer_data)
+
+            return Response({'tier3_officers': result}, status=status.HTTP_200_OK)
         else:
             return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
 
@@ -381,3 +390,42 @@ class AssignRaid(APIView):
             'raid_status': 'pending',
         }
         serializer = RaidStatusSerializer(data=raid_data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# submit raid report of a consumer
+class SubmitReport(APIView):
+    def patch(self, request, consumer_number, format=None):
+        tier3_officer_id = request.user.id
+        is_defaulter_value = request.data.get('is_defaulter', None)
+        image_id_value = request.data.get('image_id', None)
+        comment_value = request.data.get('comment', None)
+
+        if not (is_defaulter_value):
+            return Response({'detail': 'Missing required data in the request'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            pending_raid = RaidStatus.objects.get(
+                consumer_number=consumer_number,
+                tier3_officer=tier3_officer_id,
+                raid_status='pending'
+            )
+        except RaidStatus.DoesNotExist:
+            return Response({'detail': 'No pending raid found for the specified consumer and tier3 officer'},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        pending_raid.raid_status = 'completed'
+        pending_raid.is_defaulter = is_defaulter_value
+        pending_raid.image_id = image_id_value
+        pending_raid.comment = comment_value
+        pending_raid.raid_date = timezone.now()
+        pending_raid.save()
+
+        serializer = RaidStatusSerializer(pending_raid)
+        return Response(serializer.data, status=status.HTTP_200_OK)
