@@ -11,8 +11,8 @@ from django.utils import timezone
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 from django.db import models
-from .serializers import AreaSerializer,CitySerializer,FraudSerializer, ConsumerSerializer, WeeklyConsumptionHistorySerializer,DailyConsumptionHistorySerializer,FraudStatusSerializer,RaidStatusSerializer,ConsumptionHistorySerializer,CustomAreaSerializer
-from .models import Area, City,Fraud, Consumer, Area, ConsumptionHistory, RaidStatus
+from .serializers import AreaSerializer,CitySerializer,FraudSerializer, ConsumerSerializer, WeeklyConsumptionHistorySerializer,DailyConsumptionHistorySerializer,FraudStatusSerializer,RaidStatusSerializer,ConsumptionHistorySerializer,CustomAreaSerializer,Tier2Tier3RelationshipSerializer
+from .models import Area, City,Fraud, Consumer, Area, ConsumptionHistory, RaidStatus, Tier2Tier3Relationship
 
 class Tier1OfficerAreaView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -133,7 +133,6 @@ class ConsumptionHistoryWeeklyView(APIView):
         if user_tier == 'tier2':
             consumption_history = consumption_history.filter(
                 consumer_number__area_code=user_area_code
-            )
             )
 
         if not consumption_history.exists():
@@ -329,3 +328,56 @@ class SubmitReport(APIView):
 
         serializer = RaidStatusSerializer(pending_raid)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+# Get all tier 3 officers under tier2 officer
+class Tier3OfficersUnderTier2(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+        if request.user.role == 'tier2':
+            tier2_officer = request.user
+            try:
+                tier3_officers = Tier2Tier3Relationship.objects.filter(
+                    tier2_officer__tier2_officer=tier2_officer)
+            except Tier2Tier3Relationship.DoesNotExist:
+                return Response({'detail': 'No Tier 3 officers found under the Tier 2 officer'},
+                                status=status.HTTP_404_NOT_FOUND)
+
+            serializer = Tier2Tier3RelationshipSerializer(
+                tier3_officers, many=True)
+
+            return Response({'tier3_officers': serializer.data}, status=status.HTTP_200_OK)
+        else:
+            return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
+
+
+# Assign raid to a tier3 officer
+class AssignRaid(APIView):
+    def post(self, request, tier3_officer_id, format=None):
+        consumer_number_value = request.data.get('consumer_number', None)
+        tier2_officer = request.user.id
+
+        if not (consumer_number_value and tier2_officer and tier3_officer_id):
+            return Response({'detail': 'Missing required data in the request'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            relationship = Tier2Tier3Relationship.objects.get(
+                tier3_officer=tier3_officer_id)
+        except Tier2Tier3Relationship.DoesNotExist:
+            return Response({'detail': 'No Tier 3 officer found for the Tier 2 officer'},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        try:
+            consumer = Consumer.objects.get(
+                consumer_number=consumer_number_value, area_code=relationship.tier2_officer.area_code)
+        except Consumer.DoesNotExist:
+            return Response({'detail': 'Consumer not found in the specified area'},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        raid_data = {
+            'tier3_officer': tier3_officer_id,
+            'consumer_number': consumer_number_value,
+            'raid_status': 'pending',
+        }
+        serializer = RaidStatusSerializer(data=raid_data)
