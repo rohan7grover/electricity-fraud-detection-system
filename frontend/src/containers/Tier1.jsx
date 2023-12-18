@@ -63,20 +63,39 @@ const Tier1 = ({ user }) => {
 
   return (
     <div>
-      <h1>Tier-1 Dashboard</h1>
+      <div className='mt-4'>
+      <h1 style={h1color} className='display-4 text-center'>TIER-1 DASHBOARD</h1>
+      </div>
       {error && <p>Error: {error}</p>}
       {userDetails && (
-        <div>
-          <p>Officer Name: {user ? user.name : ''}</p>
-          <p>City Name: {userDetails.city_name}</p>
-          <p>City Code: {userDetails.city_code}</p>
+        <div className='mt-3 '>
+          <div className="d-flex align-items-center justify-content-center">
+          <div style={cardStyle} className='card col p-3'>
+          <h3 className='display'>Officer Name: {user ? user.name : ''}</h3>
+          <h3 className='display'>City Name: {userDetails.city_name}</h3>
+          <h3 className='display'>City Code: {userDetails.city_code}</h3>
+          </div>
+          </div>
         </div>
       )}
+      <div className="container-fluid">
+      <div className='row justify-content-center'>
       {Array.isArray(areas) && areas.map((area, index) => (
         <Tier1Card key={index} area={area} user={user}/>
       ))}
+      </div>
+      </div>
     </div>
   );
+};
+
+const cardStyle = {
+  backgroundColor: '#96B6C5',
+  color: '#eeeeee'
+};
+
+const h1color = {
+  color: '#116A7B'
 };
 
 export default Tier1;

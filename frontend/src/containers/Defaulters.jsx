@@ -50,16 +50,32 @@ const Defaulters = ({ isAuthenticated }) => {
 
   return (
     <div>
-      <h1>Defaulters</h1>
-      {<p>Area Code: {area_code}</p>}
-      {<p>Area Name: {area_name}</p>}
-      {officer_name && <p>Tier 2 Officer Name: {officer_name}</p>}
+      <div className='mt-4'>
+      <h1 className='display-4 text-center'>DEFAULTERS LIST</h1>
+      </div>
       {error && <p>Error: {error}</p>}
+        <div className='mt-3 '>
+          <div className="d-flex align-items-center justify-content-center">
+          <div style={cardStyle} className='card col p-3'>
+          <h3 className='display'>Area Code: {area_code}</h3>
+          <h3 className='display'>Area Name: {area_name}</h3>
+          {officer_name && <h3 className='display'>Tier 2 Officer Name: {officer_name}</h3>}
+          </div>
+          </div>
+        </div>
+      <div className="container-fluid mt-3">
+      <div className="row justify-content-center">
       {defaulterList.map((defaulter, index) => (
         <DefaulterCard key={index} defaulter={defaulter} user_role={user_role}/>
       ))}
+      </div>
+      </div>
     </div>
   );
+};
+
+const cardStyle = {
+  backgroundColor: '#96B6C5',
 };
 
 const mapStateToProps = (state) => ({

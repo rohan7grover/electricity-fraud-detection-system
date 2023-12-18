@@ -9,8 +9,8 @@ const DefaulterCard = ({ defaulter, user_role }) => {
   };
 
   return (
-    <div style={cardStyle} onClick={handleClick}>
-      <h3>Consumer ID: {defaulter.consumer_number.consumer_number}</h3>
+    <div style={cardStyle} className='card col-md-3 col-12' onClick={handleClick}>
+      <h2 className='text-center'>Consumer ID: {defaulter.consumer_number.consumer_number}</h2>
     </div>
   );
 };
@@ -21,7 +21,7 @@ const cardStyle = {
   padding: '10px',
   margin: '10px',
   borderRadius: '5px',
-  backgroundColor: '#f9f9f9',
+  backgroundColor: '#BEAFC2',
 };
 
 export default DefaulterCard;
