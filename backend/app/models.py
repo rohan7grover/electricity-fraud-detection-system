@@ -125,3 +125,4 @@ class RaidStatus(models.Model):
     class Meta:
         managed = False
         db_table = 'raid_status'
+

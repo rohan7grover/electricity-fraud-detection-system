@@ -36,25 +36,26 @@ const Tier2 = ({ user }) => {
     }, []);
 
     const handleButtonClickDefaulters = () => {
-        navigate(`/defaulters/${areaData?.city_code || ''}/${areaData?.area_code || ''}?area_name=${encodeURIComponent(areaData?.area_name || '')}`);
+        navigate(`/defaulters/${areaData?.city_code.city_code || ''}/${areaData?.area_code || ''}?area_name=${encodeURIComponent(areaData?.area_name || '')}`);
     };
 
     const handleButtonClickConsumers = () => {
-        navigate(`/consumers/${areaData?.city_code || ''}/${areaData?.area_code || ''}`);
+        navigate(`/consumers/${areaData?.city_code.city_code || ''}/${areaData?.area_code || ''}`);
     };
 
     return (
         <div>
-            <h1>Tier2</h1>
+            <h1>Tier 2 Dashboard</h1>
 
             {error && <p>Error: {error}</p>}
             {isLoading && <p>Loading...</p>}
             {areaData && !isLoading && (
                 <div>
-                    <p>Name: {user ? user.name : ''}</p>
+                    <p>Officer Name: {user ? user.name : ''}</p>
+                    <p>Area Name: {areaData.area_name} </p>
+                    <p>City Name: {areaData.city_code.city_name}</p>
                     <p>Area Code: {areaData.area_code}</p>
-                    <p>Area Name: {areaData.area_name}</p>
-                    <p>City Code: {areaData.city_code}</p>
+                    <p>City Code: {areaData.city_code.city_code}</p>
                 </div>
             )}
 

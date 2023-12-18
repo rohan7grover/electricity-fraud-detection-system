@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     "djoser",
     "app",
+    # "django_dbbackup",
 ]
 
 MIDDLEWARE = [

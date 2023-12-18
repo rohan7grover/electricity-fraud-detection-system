@@ -5,12 +5,13 @@ const Tier1Card = ({ area }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/defaulters/${area?.city_code || ''}/${area?.area_code || ''}?area_name=${encodeURIComponent(area?.area_name || '')}`);
+    navigate(`/defaulters/${area?.city_code || ''}/${area?.area_code || ''}?area_name=${encodeURIComponent(area?.area_name || '')}&officer_name=${encodeURIComponent(area?.tier2_officer.name || '')}`);
   };
   return (
     <div style={cardStyle} onClick={handleClick}>
       <h3>Area Code: {area.area_code}</h3>
       <h3>Area Name: {area.area_name}</h3>
+      <h3>Number of Defaulters: {area.defaulter_count}</h3>
     </div>
   );
 };

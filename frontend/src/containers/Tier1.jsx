@@ -63,12 +63,13 @@ const Tier1 = ({ user }) => {
 
   return (
     <div>
+      <h1>Tier-1 Dashboard</h1>
       {error && <p>Error: {error}</p>}
       {userDetails && (
         <div>
-          <p>Name: {user ? user.name : ''}</p>
-          <p>City Code: {userDetails.city_code}</p>
+          <p>Officer Name: {user ? user.name : ''}</p>
           <p>City Name: {userDetails.city_name}</p>
+          <p>City Code: {userDetails.city_code}</p>
         </div>
       )}
       {Array.isArray(areas) && areas.map((area, index) => (
