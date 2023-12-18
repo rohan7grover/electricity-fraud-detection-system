@@ -6,6 +6,7 @@ const Tier2 = ({ user }) => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    
 
     useEffect(() => {
         const fetchAreaData = async () => {
@@ -40,33 +41,56 @@ const Tier2 = ({ user }) => {
     };
 
     const handleButtonClickConsumers = () => {
-        navigate(`/consumers/${areaData?.city_code.city_code || ''}/${areaData?.area_code || ''}?user_role=${user.role}`);
+        navigate(`/consumers/${areaData?.city_code.city_code || ''}/${areaData?.area_code || ''}?area_name=${encodeURIComponent(areaData?.area_name || '')}&user_role=${user.role}`);
     };
 
     return (
         <div>
-            <h1>Tier 2 Dashboard</h1>
-
+        <div className='mt-4'>
+            <h1 style={h1color} className='display-4 text-center'>TIER-2 DASHBOARD</h1>
+        </div>
             {error && <p>Error: {error}</p>}
             {isLoading && <p>Loading...</p>}
             {areaData && !isLoading && (
-                <div>
-                    <p>Officer Name: {user ? user.name : ''}</p>
-                    <p>Area Name: {areaData.area_name} </p>
-                    <p>City Name: {areaData.city_code.city_name}</p>
-                    <p>Area Code: {areaData.area_code}</p>
-                    <p>City Code: {areaData.city_code.city_code}</p>
+                <div className='mt-3 '>
+                <div className="d-flex align-items-center justify-content-center">
+                <div style={cardStyle} className='card col p-3'>
+                <h3 className='display'>Officer Name: {user ? user.name : ''}</h3>
+                <h3 className='display'>Area Name: {areaData.area_name} </h3>
+                <h3 className='display'>City Name: {areaData.city_code.city_name}</h3>
+                <h3 className='display'>Area Code: {areaData.area_code}</h3>
+                <h3 className='display'>City Code: {areaData.city_code.city_code}</h3>
+                    </div>
                 </div>
+                 </div>
             )}
-
-            <button onClick={handleButtonClickDefaulters} disabled={isLoading}>
-                Show Defaulters List
+            <div className='container-fluid mt-5'>
+            <div className="row justify-content-center">
+            <button style={buttonStyle} className="card btn col-4 mx-5 align-items-center" onClick={handleButtonClickDefaulters} disabled={isLoading}>
+                Defaulters List
             </button>
-            <button onClick={handleButtonClickConsumers} disabled={isLoading}>
-                Show Consumers List
+            <button style={buttonStyle} className="card btn col-4 mx-5 align-items-center" onClick={handleButtonClickConsumers} disabled={isLoading}>
+                Consumers List
             </button>
+            </div>    
+            </div>
         </div>
     );
 };
 
+const cardStyle = {
+    backgroundColor: '#96B6C5',
+    color: '#eeeeee'
+  };
+
+const buttonStyle = {
+backgroundColor: '#1D3E53',
+color: '#eeeeee',
+fontSize: '1.7rem'
+};  
+  
+  const h1color = {
+    color: '#116A7B'
+  };
+  
 export default Tier2;

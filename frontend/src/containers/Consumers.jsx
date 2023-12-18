@@ -11,6 +11,7 @@ const Consumers = ({ isAuthenticated }) => {
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
+    const area_name = searchParams.get('area_name');
     const user_role = searchParams.get('user_role');
 
     useEffect(() => {
@@ -45,16 +46,32 @@ const Consumers = ({ isAuthenticated }) => {
 
     return (
         <div>
-            <h1>Consumers</h1>
-            <p>Area Code: {area_code}</p>
-
-            {error && <p>Error: {error}</p>}
-            {consumers.map((consumer, index) => (
-                <ConsumerCard key={index} consumerData={consumer} user_role={user_role}/>
-            ))}
+        <div className='mt-4'>
+        <h1 className='display-4 text-center'>CONSUMERS LIST</h1>
         </div>
+        {error && <p>Error: {error}</p>}
+          <div className='mt-3 '>
+            <div className="d-flex align-items-center justify-content-center">
+            <div style={cardStyle} className='card col p-3'>
+            <h3 className='display'>Area Code: {area_code}</h3>
+            <h3 className='display'>Area Name: {area_name}</h3>
+            </div>
+            </div>
+          </div>
+        <div className="container-fluid mt-3">
+        <div className="row justify-content-center">
+        {consumers.map((defaulter, index) => (
+          <ConsumerCard key={index} consumerData={defaulter} user_role={user_role}/>
+        ))}
+        </div>
+        </div>
+      </div>
     );
 };
+
+const cardStyle = {
+    backgroundColor: '#96B6C5',
+  };
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
