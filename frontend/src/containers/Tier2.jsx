@@ -60,9 +60,9 @@ const Tier2 = ({ user }) => {
                 <h3 className='display'>City Name: {areaData.city_code.city_name}</h3>
                 <h3 className='display'>Area Code: {areaData.area_code}</h3>
                 <h3 className='display'>City Code: {areaData.city_code.city_code}</h3>
-                    </div>
                 </div>
-                 </div>
+                </div>
+                </div>
             )}
             <div className='container-fluid mt-5'>
             <div className="row justify-content-center">

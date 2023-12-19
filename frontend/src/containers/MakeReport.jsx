@@ -87,13 +87,25 @@ const MakeReport = ({ isAuthenticated }) => {
 
     return (
         <div>
-            <h1>Make Report</h1>
-            <h6>Consumer Id: {consumer_id}</h6>
+            <div className='mt-4'>
+                <h1 style={h1color} className='display-4 text-center'>MAKE REPORT</h1>
+            </div>
+
             {submitClicked && !isDefaulter && console.log(error)}
+            <div className='form-group'>
             <form onSubmit={handleSubmit}>
+                
+                <div className='container-fluid mt-5 mb-4'>
+                <div className="d-flex align-items-center justify-content-center">
+                <div style={cardStyle} className='card col-4 p-3'> 
                 <div>
-                    <label>
-                        Was Fraud Detected?:
+                <h3 className='display  text-center'>Consumer ID: {consumer_id}</h3>
+
+                    <h4 className='display mt-3 mb-3'>
+                        Was Fraud Detected?
+                    </h4>
+                    <div>
+                    <label class="form-check-label" for="exampleRadios1">
                         <input
                             type="radio"
                             name="isDefaulter"
@@ -102,8 +114,8 @@ const MakeReport = ({ isAuthenticated }) => {
                             onChange={() => setIsDefaulter(true)}
                         />
                         Yes
-                    </label>
-                    <label>
+                    </label></div>
+                    <div><label class="form-check-label" for="exampleRadios2">
                         <input
                             type="radio"
                             name="isDefaulter"
@@ -113,18 +125,35 @@ const MakeReport = ({ isAuthenticated }) => {
                         />
                         No
                     </label>
+                    </div>
                 </div>
-                <div>
-                    <label>
+                <div class="form-group mt-3 mb-2">
+                    <label for="formGroupExampleInput2">
+                        <h4 className='display'>
                         Comment:
-                        <input type="text" value={comment} onChange={(e) => setComment(e.target.value)} />
+                        </h4>
                     </label>
+                    <textarea rows="3" class="col form-control" id="formGroupExampleInput2" value={comment} onChange={(e) => setComment(e.target.value)} 
+                    placeholder="Add Comment Here"/>
                 </div>
-                <div>
-                    <input type="file" onChange={handleImageChange} />
+                <div class="form-group mt-3 mb-2">
+                    <label for="exampleFormControlFile1">
+                        <h4 className='display'>
+                        Choose File:
+                        </h4>
+                    </label>
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1" onChange={handleImageChange} />
                 </div>
-                <button type="submit">Submit Report</button>
+                </div>
+                </div>
+                </div>
+                <div className='container-fluid'>
+                <div className='d-flex align-items-center justify-content-center'>
+                <button style={buttonStyle} type="submit" class="btn btn-primary mt-3">Submit Report</button>
+                </div>
+                </div>
             </form>
+            </div>
         </div>
     );
 };
@@ -132,5 +161,20 @@ const MakeReport = ({ isAuthenticated }) => {
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
+
+
+const cardStyle = {
+    borderRadius: '10px',
+    backgroundColor: '#96B6C5',
+    color: '#eeeeee',
+    fontSize: '1.4rem',
+};
+const h1color = {
+    color: '#116A7B'
+};
+const buttonStyle = {
+    backgroundColor: '#1D3E53',
+    color: '#eeeeee',
+}; 
 
 export default connect(mapStateToProps)(MakeReport);
