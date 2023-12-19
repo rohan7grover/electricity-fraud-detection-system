@@ -44,8 +44,8 @@ const MakeReport = ({ isAuthenticated }) => {
         event.preventDefault();
         setSubmitClicked(true);
 
-        if (isDefaulter === null) {
-            setError('Was Fraud Detected? is a required field.');
+        if (isDefaulter === null || !comment || !image) {
+            setError('All fields are required.');
             return;
         }
 

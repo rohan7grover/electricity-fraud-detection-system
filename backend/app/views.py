@@ -1,3 +1,5 @@
+from django.db.models import F, Value
+from django.db.models import CharField, Case, When
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import render
@@ -315,7 +317,7 @@ class FraudStatusUpdateAPIView(APIView):
     def patch(self, request, consumer_number, *args, **kwargs):
         if request.user.role not in ['tier1', 'tier2']:
             return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
-        
+
         fraud_instance = Fraud.objects.get(consumer_number=consumer_number)
         serializer = FraudStatusSerializer(
             fraud_instance, data=request.data, partial=True)
@@ -433,3 +435,22 @@ class SubmitReport(APIView):
 
         serializer = RaidStatusSerializer(pending_raid)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class RaidReportView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, consumer_number, format=None):
+        if request.user.role == 'tier1' or request.user.role == 'tier2':
+            raid_rows = RaidStatus.objects.filter(consumer_number=consumer_number).order_by(
+                Case(
+                    When(raid_status='pending', then=Value(1)),
+                    default=Value(2),
+                ),
+                '-raid_date'
+            )
+
+            serializer = RaidStatusSerializer(raid_rows, many=True)
+            return Response({'report': serializer.data}, status=status.HTTP_200_OK)
+        else:
+            return Response({'detail': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)

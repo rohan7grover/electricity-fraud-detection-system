@@ -134,6 +134,10 @@ const ConsumerUsage = ({ isAuthenticated }) => {
         }
     };
 
+    const handleGoToViewReport = () => {
+        navigate(`/view-report/${uid}`);
+    };
+
     return (
         <div>
             <h1>ConsumerUsage</h1>
@@ -191,6 +195,7 @@ const ConsumerUsage = ({ isAuthenticated }) => {
             <div>
                 <GraphComponentWeekly consumer_number={uid} />
             </div>
+            <button onClick={handleGoToViewReport}>View Report</button>
         </div>
     );
 };

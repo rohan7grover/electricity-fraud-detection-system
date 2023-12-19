@@ -13,6 +13,7 @@ import Defaulters from './containers/Defaulters';
 import Consumers from './containers/Consumers';
 import ConsumerUsage from './containers/ConsumerUsage';
 import MakeReport from './containers/MakeReport';
+import ViewReport from './containers/ViewReport';
 
 import { Provider } from 'react-redux';
 import store from './store';
@@ -35,6 +36,7 @@ const App = () => {
             <Route exact path="/consumers/:city_code/:area_code" element={<Consumers />} />
             <Route exact path="/consumer/:uid" element={<ConsumerUsage />} />
             <Route exact path="/make-report/:consumer_id" element={<MakeReport />} />
+            <Route exact path="/view-report/:consumer_id" element={<ViewReport />} />
           </Routes>
         </Layout>
       </Router>

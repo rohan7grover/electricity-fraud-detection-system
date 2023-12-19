@@ -37,7 +37,7 @@ const Tier3 = ({ user }) => {
             {user && (
                 <div>
                     <h1>Tier3</h1>
-                    <p>Name: {user ? user.id : ''}</p>
+                    <p>Id: {user ? user.id : ''}</p>
                     <p>Name: {user ? user.name : ''}</p>
                     <p>Email: {user ? user.email : ''}</p>
                 </div>

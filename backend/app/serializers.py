@@ -11,16 +11,18 @@ class UserCreateSerializer(UserCreateSerializer):
         model = User
         fields = ('id', 'email', 'name', 'role', 'password')
 
+
 class CustomAreaSerializer(serializers.ModelSerializer):
     tier2_officer = UserCreateSerializer()
     defaulter_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Area
-        fields = ['area_code', 'city_code', 'area_name', 'tier2_officer','defaulter_count']
-    def get_defaulter_count(self, obj):
-        return obj.defaulter_count 
+        fields = ['area_code', 'city_code', 'area_name',
+                  'tier2_officer', 'defaulter_count']
 
+    def get_defaulter_count(self, obj):
+        return obj.defaulter_count
 
 
 class CitySerializer(serializers.ModelSerializer):
@@ -30,21 +32,26 @@ class CitySerializer(serializers.ModelSerializer):
         model = City
         fields = ['city_code', 'city_name', 'tier1_officer']
 
+
 class AreaSerializer(serializers.ModelSerializer):
     tier2_officer = UserCreateSerializer()
-    city_code=CitySerializer()
+    city_code = CitySerializer()
+
     class Meta:
         model = Area
         fields = ['area_code', 'city_code', 'area_name', 'tier2_officer']
+
 
 class ConsumerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Consumer
         fields = ['consumer_number', 'area_code', 'city_code']
 
+
 class CustomTimeField(serializers.Field):
     def to_representation(self, value):
         return value.strftime('%H:%M')
+
 
 class ConsumptionHistorySerializer(serializers.ModelSerializer):
     time = CustomTimeField()
@@ -52,6 +59,7 @@ class ConsumptionHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ConsumptionHistory
         fields = ['time', 'consumption']
+
 
 class FraudStatusSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,9 +69,10 @@ class FraudStatusSerializer(serializers.ModelSerializer):
 
 class FraudSerializer(serializers.ModelSerializer):
     consumer_number = ConsumerSerializer()
+
     class Meta:
         model = Fraud
-        fields = ['consumer_number','fraud_status']
+        fields = ['consumer_number', 'fraud_status']
 
 
 class Tier2Tier3RelationshipSerializer(serializers.ModelSerializer):
@@ -79,9 +88,12 @@ class DateOnlyField(serializers.DateField):
     def to_representation(self, value):
         return value.date()
 
+
 class DailyConsumptionHistorySerializer(serializers.Serializer):
     date = serializers.DateField()
-    total_consumption = serializers.DecimalField(max_digits=10, decimal_places=2)
+    total_consumption = serializers.DecimalField(
+        max_digits=10, decimal_places=2)
+
 
 class WeeklyConsumptionHistorySerializer(serializers.Serializer):
     week = DateOnlyField()
