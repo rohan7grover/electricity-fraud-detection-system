@@ -226,6 +226,8 @@ const ConsumerUsage = ({ isAuthenticated }) => {
             </div>
             <button onClick={handleGoToViewReport}>View Report</button>
         </div>
+        </div>
+        </div>
     );
 };
 
