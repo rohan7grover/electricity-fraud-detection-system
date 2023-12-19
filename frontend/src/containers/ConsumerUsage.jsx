@@ -156,7 +156,7 @@ const ConsumerUsage = ({ isAuthenticated }) => {
 
             {(isDefaulter && user_role === 'tier2') && (
                 <div>
-                    <label className='mt-3 display-5 '>Select Tier 3 Officer</label>
+                    <label className='mt-3 '><h3 className='display-5 '>Select Tier 3 Officer</h3></label>
                     <div>
                     <select className='mt-2 col-3'
                         value={selectedOfficer ? selectedOfficer.id : ''}
@@ -179,6 +179,8 @@ const ConsumerUsage = ({ isAuthenticated }) => {
                     <button style={buttonStyle} className='mt-3 btn card col-3' onClick={handleAssignRaid}>Assign Raid</button>
                 </div>
             )}
+            <button style={buttonStyle} onClick={handleGoToViewReport} className='mt-3 btn card col-3'>View Report</button>
+
             </div>
             </div>
             </div>
@@ -224,7 +226,6 @@ const ConsumerUsage = ({ isAuthenticated }) => {
                 <div className='card col-11'>
                 <GraphComponentWeekly consumer_number={uid} />
             </div>
-            <button onClick={handleGoToViewReport}>View Report</button>
         </div>
         </div>
         </div>

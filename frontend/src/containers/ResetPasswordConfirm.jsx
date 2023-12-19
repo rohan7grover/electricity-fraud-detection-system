@@ -54,10 +54,21 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
             required
           />
         </div>
-        <button className='btn btn-primary' type='submit'>Reset Password</button>
+        <div className='container-fluid mt-5 mb-4'>
+                <div className="d-flex align-items-center justify-content-center">
+        <button style={btnStyle} className='btn card' type='submit'>Reset Password</button>
+        </div>
+        </div>
       </form>
     </div>
   );
 };
+
+const btnStyle = {
+  backgroundColor: '#1D3E53',
+  color: '#eeeeee',
+  fontSize: '1.7rem',
+  borderRadius: '10px'
+  }; 
 
 export default connect(null, { reset_password_confirm })(ResetPasswordConfirm);

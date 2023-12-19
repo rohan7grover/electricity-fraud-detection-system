@@ -149,7 +149,7 @@ const MakeReport = ({ isAuthenticated }) => {
                 </div>
                 <div className='container-fluid'>
                 <div className='d-flex align-items-center justify-content-center'>
-                <button style={buttonStyle} type="submit" class="btn btn-primary mt-3">Submit Report</button>
+                <button style={buttonStyle} type="submit" class="btn mt-3">Submit Report</button>
                 </div>
                 </div>
             </form>
@@ -175,6 +175,8 @@ const h1color = {
 const buttonStyle = {
     backgroundColor: '#1D3E53',
     color: '#eeeeee',
+    fontSize: '1.5rem',
+    borderRadius: '10px'
 }; 
 
 export default connect(mapStateToProps)(MakeReport);

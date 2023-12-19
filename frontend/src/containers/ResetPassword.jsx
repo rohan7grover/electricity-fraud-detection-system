@@ -26,7 +26,7 @@ const ResetPassword = ({ reset_password }) => {
 
   return (
     <div className='container mt-5'>
-      <h1>Request Password Reset:</h1>
+      <h1 style={h1color} >Request Password Reset:</h1>
       <form onSubmit={e => onSubmit(e)}>
         <div className='form-group'>
           <input
@@ -39,10 +39,26 @@ const ResetPassword = ({ reset_password }) => {
             required
           />
         </div>
-        <button className='btn btn-primary' type='submit'>Reset Password</button>
+        <div className='container-fluid mt-5 mb-4'>
+                <div className="d-flex align-items-center justify-content-center">
+        <button style={btnStyle} className='btn card' type='submit'>Reset Password</button>
+        </div>
+        </div>
       </form>
     </div>
   );
 };
+
+const btnStyle = {
+  backgroundColor: '#1D3E53',
+  color: '#eeeeee',
+  fontSize: '1.7rem',
+  borderRadius: '10px'
+  }; 
+
+
+  const h1color = {
+    color: '#116A7B'
+  };
 
 export default connect(null, { reset_password })(ResetPassword);

@@ -5,11 +5,13 @@
   padding: 10px 20px;
 /* Apply border style only to the bottom */
   border-bottom-style: solid;
+
+  color: #eeeeee !important;
   border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 .navbar-brand {
   font-size: 1.5rem; 
-  color: white !important; 
+  color: #eeeeee !important; 
   text-decoration: none;
 }
 
@@ -22,7 +24,7 @@
 }
 
 .nav-link {
-  color: #00ff00 !important; 
+  color: #1D3E53 !important; 
   text-decoration: none;
   transition: color 0.3s ease; 
 
