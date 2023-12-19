@@ -47,7 +47,7 @@ const Consumers = ({ isAuthenticated }) => {
     return (
         <div>
         <div className='mt-4'>
-        <h1 className='display-4 text-center'>CONSUMERS LIST</h1>
+        <h1 style={h1color} className='display-4 text-center'>CONSUMERS LIST</h1>
         </div>
         {error && <p>Error: {error}</p>}
           <div className='mt-3 '>
@@ -71,6 +71,11 @@ const Consumers = ({ isAuthenticated }) => {
 
 const cardStyle = {
     backgroundColor: '#96B6C5',
+    color: '#eeeeee'
+  };
+
+const h1color = {
+    color: '#116A7B',
   };
 
 const mapStateToProps = (state) => ({

@@ -140,17 +140,25 @@ const ConsumerUsage = ({ isAuthenticated }) => {
 
     return (
         <div>
-            <h1>ConsumerUsage</h1>
-            <p>Consumer ID: {uid}</p>
+            <div className='mt-4'>
+      <h1 style={h1color} className='display-4 text-center'>CONSUMER USAGE</h1>
+      </div>
+            <div className='mt-3 '>
+          <div className="d-flex align-items-center justify-content-center">
+          <div style={cardStyle} className='card col p-3'>
+          <h3 className='display'>Consumer ID: {uid}</h3>
 
-            <button onClick={handleToggleDefaulterStatus} disabled={loading || updateInProgress}>
+            <button style={buttonStyle} className='btn card col-3' onClick={handleToggleDefaulterStatus} disabled={loading || updateInProgress}>
                 {loading ? 'Loading...' : isDefaulter ? 'Remove from Defaulters' : 'Add to Defaulters'}
             </button>
 
+            
+
             {(isDefaulter && user_role === 'tier2') && (
                 <div>
-                    <label>Select Tier 3 Officer:</label>
-                    <select
+                    <label className='mt-3 display-5 '>Select Tier 3 Officer</label>
+                    <div>
+                    <select className='mt-2 col-3'
                         value={selectedOfficer ? selectedOfficer.id : ''}
                         onChange={(e) => {
                             const selectedId = parseInt(e.target.value);
@@ -167,38 +175,76 @@ const ConsumerUsage = ({ isAuthenticated }) => {
                             </option>
                         ))}
                     </select>
-                    <button onClick={handleAssignRaid}>Assign Raid</button>
+                    </div>
+                    <button style={buttonStyle} className='mt-3 btn card col-3' onClick={handleAssignRaid}>Assign Raid</button>
                 </div>
             )}
+            </div>
+            </div>
+            </div>
 
-            <h3>Hourly</h3>
+            <h3 style={h1color} className='display-5 text-center mt-3'>Hourly Consumption Analysis</h3>
             <div>
+            <div className='container-fluid'> 
+            <h5 style={h1color} className='display-5 mt-3 col-2 ml-4'>Select Date</h5>
+                
                 <DatePicker
                     selected={targetDate}
                     onChange={handleDateChange}
                     minDate={new Date('2022-01-01')}
                     maxDate={new Date('2022-12-31')}
-                    className="custom-datepicker"
+                    className='ml-5'
                     showPopperArrow={false}
                     dateFormat="dd-MM-yyyy"
                     calendarIcon={<FontAwesomeIcon icon={faCalendarAlt} />}
                 />
+                </div>    
+                <div className='container-fluid mt-2'>
+                <div className='d-flex align-center-items justify-content-center'>
+                <div className='card col-11'>
                 <GraphComponentHourly consumer_number={uid} target_date={targetDate.toISOString().split('T')[0]} />
+                </div>
+                </div>
+                </div>
             </div>
 
-            <h3>Daily</h3>
-            <div>
+            <h3 style={h1color} className='display-5 text-center mt-3'>Daily Consumption Analysis</h3>
+
+            <div className='container-fluid mt-2'>
+                <div className='d-flex align-center-items justify-content-center'>
+                <div className='card col-11 border'>
                 <GraphComponentDaily consumer_number={uid} />
             </div>
+            </div>
+            </div>
 
-            <h3>Weekly</h3>
-            <div>
+            <h3 style={h1color} className='display-5 text-center mt-3'>Weekly Consumption Analysis</h3>
+            <div className='container-fluid mt-2'>
+                <div className='d-flex align-center-items justify-content-center'>
+                <div className='card col-11'>
                 <GraphComponentWeekly consumer_number={uid} />
             </div>
             <button onClick={handleGoToViewReport}>View Report</button>
         </div>
     );
 };
+
+const cardStyle = {
+    backgroundColor: '#96B6C5',
+    color: '#eeeeee'
+  };
+
+const h1color = {
+color: '#116A7B'
+};
+
+const buttonStyle = {
+backgroundColor: '#1D3E53',
+color: '#eeeeee',
+fontSize: '1.3rem',
+borderRadius: '10px'
+};  
+
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,

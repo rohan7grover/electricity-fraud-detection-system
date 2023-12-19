@@ -25,14 +25,16 @@ const Home = ({ isAuthenticated, user, load_user }) => {
           ) : null}
         </div>
       ) : (
-        <div className='container'>
+        <div className='container '>
+          <div className="d-flex align-items-center justify-content-center">
           
-           <div class='jumbotron mt-5'>
+           <div class='jumbotron mt-5 col-10'>
             <h1 class='display-4'>Welcome to Energy Fraud Detection System</h1>
             <hr class='my-4' />
             <p>Click the Log In button to Continue using our Application</p>
-            <Link class='btn btn-primary btn-lg' to='/login' role='button'>Login</Link>
+            <Link class='btn btn-primary btn-lg mt-3 col-2' to='/login' role='button'>Login</Link>
           </div> 
+          </div>
         </div>
       )}
     </div>

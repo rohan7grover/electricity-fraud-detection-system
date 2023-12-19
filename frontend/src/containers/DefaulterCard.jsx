@@ -20,8 +20,8 @@ const cardStyle = {
   border: '1px solid #ddd',
   padding: '10px',
   margin: '10px',
-  borderRadius: '5px',
-  backgroundColor: '#BEAFC2',
+  borderRadius: '10px',
+  color: '#116A7B'
 };
 
 export default DefaulterCard;

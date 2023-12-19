@@ -52,7 +52,7 @@ const Tier2 = ({ user }) => {
             {error && <p>Error: {error}</p>}
             {isLoading && <p>Loading...</p>}
             {areaData && !isLoading && (
-                <div className='mt-3 '>
+                <div className='mt-3'>
                 <div className="d-flex align-items-center justify-content-center">
                 <div style={cardStyle} className='card col p-3'>
                 <h3 className='display'>Officer Name: {user ? user.name : ''}</h3>
@@ -86,7 +86,8 @@ const cardStyle = {
 const buttonStyle = {
 backgroundColor: '#1D3E53',
 color: '#eeeeee',
-fontSize: '1.7rem'
+fontSize: '1.7rem',
+borderRadius: '10px'
 };  
   
   const h1color = {

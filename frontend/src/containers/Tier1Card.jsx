@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Tier1Card = ({ area, user }) => {
+const Tier1Card = ({ area, user}) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -11,7 +11,7 @@ const Tier1Card = ({ area, user }) => {
   const determineBackgroundColor = () => {
     const defaulterCount = area.defaulter_count || 0;
 
-    if (defaulterCount <= 12) {
+    if (defaulterCount <= 13) {
       return '#41AAA8'; // Green
     } else if (defaulterCount < 18) {
       return '#FCE38A'; // Orange
@@ -25,8 +25,12 @@ const Tier1Card = ({ area, user }) => {
     border: '1px solid #ddd',
     padding: '10px',
     margin: '10px',
-    borderRadius: '5px',
+    borderRadius: '10px',
     backgroundColor: determineBackgroundColor(),
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   };
 
   return (

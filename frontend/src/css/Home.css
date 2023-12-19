@@ -20,9 +20,14 @@ body {
     font-weight: bolder;
     color: #fff;
   } */
+
+
   
   .jumbotron {
-    background-color: rgba(208, 37, 37, 0.5);
+    background-color: #96B6C5;
+    /* background-image: url('background.jpg');
+    background-size: contain  ; */
+    color: #eeeeee;
     padding: 20px;
     border-radius: 15px;
     border-style: solid;
@@ -30,8 +35,8 @@ body {
   }
   
   .homeBg{
-    /* background-image: url('thomas-despeyroux-Dh5pUa2PwrY-unsplash.jpg'); */
-    background-color: #4CAF50;
+    background-image: url('background.jpg');
+    background-size: cover;
     height: 100vh;
   }
   .display-4 {
@@ -39,8 +44,9 @@ body {
   }
   
   .btn-primary {
-    background-color: #4CAF50;
-    border: none;
+    background-color: #1d3e5300 !important;
+    color: #eeeeee !important;
+    border-color:#eeeeee !important;
     border-radius: 12px;
   }
   
