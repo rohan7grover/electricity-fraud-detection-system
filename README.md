@@ -29,7 +29,7 @@ echo -e "SECRET_KEY=\nEMAIL_HOST_USER=\nEMAIL_HOST_PASSWORD=\nPOSTGRES_USER=\nPO
 ### Creating .env for Frontend
 
 ```bash
-echo -e "REACT_APP_API_URL =" > ./frontend/.env
+echo -e "REACT_APP_API_URL=\nREACT_APP_IMGUR_API_KEY=" > ./frontend/.env
 ```
 
 ### Activating Virtual Environment 
